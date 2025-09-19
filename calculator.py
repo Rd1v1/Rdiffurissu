@@ -57,9 +57,9 @@ class CalculatorApp(tk.Tk):
         # CE C ⌫ ±
         self._add_row(container, row, [
             ("CE", None),
-            ("C", None),
-            ("⌫", None),
-            ("±", None),
+            ("C", self.on_clear_all),
+            ("⌫", self.on_backspace),
+            ("±", self.on_toggle_sign),
         ])
         set_row_weight(row); row += 1
 
@@ -83,37 +83,37 @@ class CalculatorApp(tk.Tk):
 
         # 7 8 9 *
         self._add_row(container, row, [
-            ("7", None),
-            ("8", None),
-            ("9", None),
+            ("7", lambda: self.on_digit("7")),
+            ("8", lambda: self.on_digit("8")),
+            ("9", lambda: self.on_digit("9")),
             ("*", None),
         ])
         set_row_weight(row); row += 1
 
         # 4 5 6 -
         self._add_row(container, row, [
-            ("4", None),
-            ("5", None),
-            ("6", None),
+            ("4", lambda: self.on_digit("4")),
+            ("5", lambda: self.on_digit("5")),
+            ("6", lambda: self.on_digit("6")),
             ("-", None),
         ])
         set_row_weight(row); row += 1
 
         # 1 2 3 +
         self._add_row(container, row, [
-            ("1", None),
-            ("2", None),
-            ("3", None),
+            ("1", lambda: self.on_digit("1")),
+            ("2", lambda: self.on_digit("2")),
+            ("3", lambda: self.on_digit("3")),
             ("+", None),
         ])
         set_row_weight(row); row += 1
 
         # 0 . [пусто] =
-        # Для пустой ячейки поставим пустой Label, чтобы сохранялось равномерное растяжение
+        # Для пустой ячейки ставится Label, чтобы сохранялось равномерное изменений размеров кнопки
         empty = ttk.Label(container, text="")
         defs = [
-            ("0", None),
-            (".", None),
+            ("0", lambda: self.on_digit("0")),
+            (".", self.on_dot),
             (empty, None),  # placeholder
             ("=", None),
         ]
@@ -128,13 +128,12 @@ class CalculatorApp(tk.Tk):
             col += 1
         set_row_weight(row)
 
-        # Увеличенные кнопки через стиль
-        # Применим стиль ко всем кнопкам
+        # Применение стилей кнопок
         for child in container.winfo_children():
             if isinstance(child, ttk.Button):
                 child.configure(style="Calc.TButton")
 
-        # Минимальный размер окна для удобного старта
+        # Минимальный размер окна
         self.update_idletasks()
         self.minsize(350, 520)
         self.geometry("350x520")
@@ -147,6 +146,31 @@ class CalculatorApp(tk.Tk):
             btn.grid(row=row, column=col, padx=4, pady=4, sticky="nsew")
             col += 1
 
+    # Обработчики событий нажатий на кнопки
+    # C
+    def on_clear_all(self):
+        self.calc.clear_all()
+        self.var.set(self.calc.display_value)
+
+    # Цифры
+    def on_digit(self, d):
+        self.calc.input_digit(d)
+        self.var.set(self.calc.display_value)
+
+    # Точка десятичной дроби
+    def on_dot(self):
+        self.calc.input_dot()
+        self.var.set(self.calc.display_value)
+
+    # Смена знака
+    def on_toggle_sign(self):
+        self.calc.toggle_sign()
+        self.var.set(self.calc.display_value)
+
+    # Удаление цифр
+    def on_backspace(self):
+        self.calc.backspace()
+        self.var.set(self.calc.display_value)
 
 if __name__ == "__main__":
     app = CalculatorApp()
