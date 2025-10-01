@@ -190,7 +190,7 @@ class Calculator:
         try:
             if isinstance(x, float) and (math.isinf(x) or math.isnan(x)):
                 return "Error"
-            s = f"{x:.12g}"  # до 12 значащих
+            s = f"{x:.12g}"  # до 12 значащих чисел
             return s
         except Exception:
             return str(x)
