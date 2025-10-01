@@ -50,7 +50,7 @@ jobs:
         pip install pyinstaller
         
         # Сборка исполняемого файла
-        pyinstaller --onefile --windowed --name calculator calculator.py
+        pyinstaller --onefile --windowed --name "calculator-${{ runner.os }}-${{ matrix.python-version }}" calculator.py
 
     # 5. Установка приложения (только для Linux)
     - name: Install application
@@ -66,8 +66,8 @@ jobs:
       with:
         name: calculator-${{ matrix.os }}-${{ matrix.python-version }}
         path: |
-          dist/calculator*
-          dist/calculator*.*
+          dist/calculator-${{ runner.os }}-${{ matrix.python-version }}
+          dist/calculator-${{ runner.os }}-${{ matrix.python-version }}.exe
 
   deployment:
     runs-on: ubuntu-latest
@@ -82,7 +82,7 @@ jobs:
       run: ls -R
       
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: |
           **/calculator*
