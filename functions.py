@@ -104,7 +104,26 @@ class Calculator:
         self._pending_operator = None
         self._stored_operand = None
         self._reset_display = True
-    
+
+    def apply_unary(self, kind: str):
+        # kind in ['sin','cos','sqrt','floor','ceil']
+        if self._error:
+            return
+        try:
+            x = float(self.display_value)
+            if kind == "sin":
+                # sin в градусах
+                res = math.sin(math.radians(x))
+            elif kind == "cos":
+                # cos в градусах
+                res = math.cos(math.radians(x))
+            else:
+                raise ValueError("unknown unary")
+            self.display_value = self._fmt(res)
+            self._reset_display = True
+        except Exception:
+            self._set_error() 
+
     # Внутренние вспомогательные
     def _binary_compute(self, op, a, b):
         try:
