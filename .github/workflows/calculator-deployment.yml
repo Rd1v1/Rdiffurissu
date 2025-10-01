@@ -56,8 +56,8 @@ jobs:
     - name: Install application
       if: runner.os == 'Linux'
       run: |
-        chmod +x dist/calculator
-        sudo cp dist/calculator /usr/local/bin/
+        chmod +x dist/calculator-${{ runner.os }}-${{ matrix.python-version }}
+        sudo cp dist/calculator-${{ runner.os }}-${{ matrix.python-version }} /usr/local/bin/
         which calculator && calculator --version || echo "Application installed successfully"
 
     # 6. Создание релизного артефакта
