@@ -12,6 +12,7 @@ class CalculatorApp(tk.Tk):
         self.var = tk.StringVar(value=self.calc.display_value)
 
         self._build_ui()
+        self._bind_keys()
         
     def _build_ui(self):
         style = ttk.Style(self)
@@ -205,6 +206,41 @@ class CalculatorApp(tk.Tk):
     def on_unary(self, kind):
         self.calc.apply_unary(kind)
         self.var.set(self.calc.display_value)
+    
+    # Привязка клавиатуры
+    def _bind_keys(self):
+        for d in "0123456789":
+            self.bind(d, lambda e, x=d: self._key_digit(x))
+        self.bind(".", lambda e: self._key_dot())
+        self.bind("<BackSpace>", lambda e: self._key_backspace())
+        self.bind("<Return>", lambda e: self._key_equals())
+        self.bind("<KP_Enter>", lambda e: self._key_equals())
+        ops = {"+": "+", "-": "-", "*": "*", "/": "/", "%": "%", "^": "^"}
+        for key, op in ops.items():
+            self.bind(key, lambda e, o=op: self._key_operator(o))
+        self.bind("<Escape>", lambda e: self._key_clear())
+
+        # Фокус на окно, чтобы клавиатура сразу работала
+        self.after(100, lambda: self.focus_force())
+
+    # Обработчики клавиш
+    def _key_digit(self, d):
+        self.on_digit(d)
+
+    def _key_dot(self):
+        self.on_dot()
+
+    def _key_backspace(self):
+        self.on_backspace()
+
+    def _key_equals(self):
+        self.on_equals()
+
+    def _key_operator(self, op):
+        self.on_operator(op)
+
+    def _key_clear(self):
+        self.on_clear_all()
 
 if __name__ == "__main__":
     app = CalculatorApp()
