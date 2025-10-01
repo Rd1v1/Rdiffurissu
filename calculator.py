@@ -67,8 +67,8 @@ class CalculatorApp(tk.Tk):
         self._add_row(container, row, [
             ("^", None),
             ("sqrt", None),
-            ("sin", None),
-            ("cos", None),
+            ("sin", lambda: self.on_unary("sin")),  # в логике sin/cos — в градусах
+            ("cos", lambda: self.on_unary("cos")),
         ])
         set_row_weight(row); row += 1
 
@@ -180,6 +180,9 @@ class CalculatorApp(tk.Tk):
         self.calc.equals()
         self.var.set(self.calc.display_value)
 
+    def on_unary(self, kind):
+        self.calc.apply_unary(kind)
+        self.var.set(self.calc.display_value)
 
 if __name__ == "__main__":
     app = CalculatorApp()
