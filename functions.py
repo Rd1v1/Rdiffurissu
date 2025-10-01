@@ -1,3 +1,5 @@
+import math
+
 class Calculator:
     def __init__(self):
         self.clear_all()
@@ -60,3 +62,87 @@ class Calculator:
         else:
             s = "0"
         self.display_value = s
+
+    def set_operator(self, op: str):
+        # op in ['+','-','*','/','%','^']
+        if self._error:
+            return
+        try:
+            current = float(self.display_value)
+        except ValueError:
+            self._set_error()
+            return
+
+        # Если уже есть оператор — сначала вычислим
+        if self._pending_operator is not None and self._stored_operand is not None and not self._reset_display:
+            # Выполнить цепочное вычисление
+            self._binary_compute(self._pending_operator, self._stored_operand, current)
+            if self._error:
+                return
+            try:
+                current = float(self.display_value)
+            except Exception:
+                self._set_error()
+                return
+
+        self._stored_operand = current
+        self._pending_operator = op
+        self._reset_display = True
+
+    def equals(self):
+        if self._error:
+            return
+        if self._pending_operator is None or self._stored_operand is None:
+            return
+        try:
+            current = float(self.display_value)
+        except ValueError:
+            self._set_error()
+            return
+        self._binary_compute(self._pending_operator, self._stored_operand, current)
+        # После равно сбрасываем оператор, но оставим результат для продолжения
+        self._pending_operator = None
+        self._stored_operand = None
+        self._reset_display = True
+    
+    # Внутренние вспомогательные
+    def _binary_compute(self, op, a, b):
+        try:
+            if op == "+":
+                res = a + b
+            elif op == "-":
+                res = a - b
+            elif op == "*":
+                res = a * b
+            elif op == "/":
+                if b == 0:
+                    raise ZeroDivisionError
+                res = a / b
+            elif op == "%":
+                if b == 0:
+                    raise ZeroDivisionError
+                res = a % b
+            else:
+                raise ValueError("unknown operator")
+            self.display_value = self._fmt(res)
+            self._reset_display = True
+        except Exception:
+            self._set_error()
+
+    def _fmt(self, x):
+        # Удобное форматирование числа
+        # Ограничим длину и уберем лишние нули
+        try:
+            if isinstance(x, float) and (math.isinf(x) or math.isnan(x)):
+                return "Error"
+            s = f"{x:.12g}"  # до 12 значащих
+            return s
+        except Exception:
+            return str(x)
+
+    def _set_error(self):
+        self.display_value = "Error"
+        self._error = True
+        self._pending_operator = None
+        self._stored_operand = None
+        self._reset_display = True
