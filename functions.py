@@ -12,6 +12,11 @@ class Calculator:
         self._stored_operand = None
         self._reset_display = False
         self._error = False
+    
+    def clear_entry(self):
+        self.display_value = "0"
+        self._reset_display = False
+        self._error = False
 
     # Отслеживание ввода чисел
     def input_digit(self, d: str):
@@ -131,6 +136,27 @@ class Calculator:
             self._reset_display = True
         except Exception:
             self._set_error() 
+
+    # Память
+    def memory_clear(self):
+        self._memory = 0.0
+
+    def memory_recall(self):
+        self.display_value = self._fmt(self._memory)
+        self._reset_display = True
+
+    def memory_add(self):
+        try:
+            self._memory += float(self.display_value)
+        except Exception:
+            self._set_error()
+
+    def memory_subtract(self):
+        try:
+            self._memory -= float(self.display_value)
+        except Exception:
+            self._set_error()
+
 
     # Внутренние вспомогательные
     def _binary_compute(self, op, a, b):

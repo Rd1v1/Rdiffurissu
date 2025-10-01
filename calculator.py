@@ -47,16 +47,16 @@ class CalculatorApp(tk.Tk):
 
         # MC MR M+ M-
         self._add_row(container, row, [
-            ("MC", None),
-            ("MR", None),
-            ("M+", None),
-            ("M-", None),
+            ("MC", self.on_mc),
+            ("MR", self.on_mr),
+            ("M+", self.on_mplus),
+            ("M-", self.on_mminus),
         ])
         set_row_weight(row); row += 1
 
         # CE C ⌫ ±
         self._add_row(container, row, [
-            ("CE", None),
+            ("CE", self.on_clear_entry),
             ("C", self.on_clear_all),
             ("⌫", self.on_backspace),
             ("±", self.on_toggle_sign),
@@ -151,6 +151,11 @@ class CalculatorApp(tk.Tk):
     def on_clear_all(self):
         self.calc.clear_all()
         self.var.set(self.calc.display_value)
+    
+    # CE
+    def on_clear_entry(self):
+        self.calc.clear_entry()
+        self.var.set(self.calc.display_value)
 
     # Цифры
     def on_digit(self, d):
@@ -172,14 +177,31 @@ class CalculatorApp(tk.Tk):
         self.calc.backspace()
         self.var.set(self.calc.display_value)
 
+    # Память
+    def on_mc(self):
+        self.calc.memory_clear()
+
+    def on_mr(self):
+        self.calc.memory_recall()
+        self.var.set(self.calc.display_value)
+
+    def on_mplus(self):
+        self.calc.memory_add()
+
+    def on_mminus(self):
+        self.calc.memory_subtract()
+
+    # Операторы
     def on_operator(self, op):
         self.calc.set_operator(op)
         self.var.set(self.calc.display_value)
 
+    # Нажатие на равно
     def on_equals(self):
         self.calc.equals()
         self.var.set(self.calc.display_value)
 
+    # Унарные операторы
     def on_unary(self, kind):
         self.calc.apply_unary(kind)
         self.var.set(self.calc.display_value)
