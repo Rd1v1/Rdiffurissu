@@ -165,6 +165,7 @@ class Calculator:
         except Exception:
             return str(x)
 
+    # Изменение данных при возникновении ошибки
     def _set_error(self):
         self.display_value = "Error"
         self._error = True
