@@ -76,8 +76,8 @@ class CalculatorApp(tk.Tk):
         self._add_row(container, row, [
             ("floor", None),
             ("ceil", None),
-            ("%", None),
-            ("/", None),
+            ("%", lambda: self.on_operator("%")),
+            ("/", lambda: self.on_operator("/")),
         ])
         set_row_weight(row); row += 1
 
@@ -86,7 +86,7 @@ class CalculatorApp(tk.Tk):
             ("7", lambda: self.on_digit("7")),
             ("8", lambda: self.on_digit("8")),
             ("9", lambda: self.on_digit("9")),
-            ("*", None),
+            ("*", lambda: self.on_operator("*")),
         ])
         set_row_weight(row); row += 1
 
@@ -95,7 +95,7 @@ class CalculatorApp(tk.Tk):
             ("4", lambda: self.on_digit("4")),
             ("5", lambda: self.on_digit("5")),
             ("6", lambda: self.on_digit("6")),
-            ("-", None),
+            ("-", lambda: self.on_operator("-")),
         ])
         set_row_weight(row); row += 1
 
@@ -104,7 +104,7 @@ class CalculatorApp(tk.Tk):
             ("1", lambda: self.on_digit("1")),
             ("2", lambda: self.on_digit("2")),
             ("3", lambda: self.on_digit("3")),
-            ("+", None),
+            ("+", lambda: self.on_operator("+")),
         ])
         set_row_weight(row); row += 1
 
@@ -115,7 +115,7 @@ class CalculatorApp(tk.Tk):
             ("0", lambda: self.on_digit("0")),
             (".", self.on_dot),
             (empty, None),  # placeholder
-            ("=", None),
+            ("=", self.on_equals),
         ]
         col = 0
         for item, cmd in defs:
@@ -171,6 +171,15 @@ class CalculatorApp(tk.Tk):
     def on_backspace(self):
         self.calc.backspace()
         self.var.set(self.calc.display_value)
+
+    def on_operator(self, op):
+        self.calc.set_operator(op)
+        self.var.set(self.calc.display_value)
+
+    def on_equals(self):
+        self.calc.equals()
+        self.var.set(self.calc.display_value)
+
 
 if __name__ == "__main__":
     app = CalculatorApp()
