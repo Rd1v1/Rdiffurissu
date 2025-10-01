@@ -74,8 +74,8 @@ class CalculatorApp(tk.Tk):
 
         # floor ceil % /
         self._add_row(container, row, [
-            ("floor", None),
-            ("ceil", None),
+            ("floor", lambda: self.on_unary("floor")),
+            ("ceil", lambda: self.on_unary("ceil")),
             ("%", lambda: self.on_operator("%")),
             ("/", lambda: self.on_operator("/")),
         ])

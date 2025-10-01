@@ -121,6 +121,10 @@ class Calculator:
                 if x < 0:
                     raise ValueError("sqrt domain")
                 res = math.sqrt(x)
+            elif kind == "floor":
+                res = math.floor(x)
+            elif kind == "ceil":
+                res = math.ceil(x)
             else:
                 raise ValueError("unknown unary")
             self.display_value = self._fmt(res)
