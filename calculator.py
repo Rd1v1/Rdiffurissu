@@ -65,8 +65,8 @@ class CalculatorApp(tk.Tk):
 
         # ^ sqrt sin cos
         self._add_row(container, row, [
-            ("^", None),
-            ("sqrt", None),
+            ("^",  lambda: self.on_operator("^")),
+            ("sqrt", lambda: self.on_unary("sqrt")),
             ("sin", lambda: self.on_unary("sin")),  # в логике sin/cos — в градусах
             ("cos", lambda: self.on_unary("cos")),
         ])

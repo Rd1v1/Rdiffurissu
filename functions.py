@@ -64,7 +64,7 @@ class Calculator:
         self.display_value = s
 
     def set_operator(self, op: str):
-        # op in ['+','-','*','/','%','^']
+        # op содержится в ['+','-','*','/','%','^']
         if self._error:
             return
         try:
@@ -73,7 +73,7 @@ class Calculator:
             self._set_error()
             return
 
-        # Если уже есть оператор — сначала вычислим
+        # Если уже есть оператор — сначала вычисление
         if self._pending_operator is not None and self._stored_operand is not None and not self._reset_display:
             # Выполнить цепочное вычисление
             self._binary_compute(self._pending_operator, self._stored_operand, current)
@@ -106,7 +106,7 @@ class Calculator:
         self._reset_display = True
 
     def apply_unary(self, kind: str):
-        # kind in ['sin','cos','sqrt','floor','ceil']
+        # kind содержится в ['sin','cos','sqrt','floor','ceil']
         if self._error:
             return
         try:
@@ -117,6 +117,10 @@ class Calculator:
             elif kind == "cos":
                 # cos в градусах
                 res = math.cos(math.radians(x))
+            elif kind == "sqrt":
+                if x < 0:
+                    raise ValueError("sqrt domain")
+                res = math.sqrt(x)
             else:
                 raise ValueError("unknown unary")
             self.display_value = self._fmt(res)
@@ -141,6 +145,8 @@ class Calculator:
                 if b == 0:
                     raise ZeroDivisionError
                 res = a % b
+            elif op == "^":
+                res = math.pow(a, b)
             else:
                 raise ValueError("unknown operator")
             self.display_value = self._fmt(res)
@@ -150,7 +156,7 @@ class Calculator:
 
     def _fmt(self, x):
         # Удобное форматирование числа
-        # Ограничим длину и уберем лишние нули
+        # Ограничение длины и удаление лишних нулей
         try:
             if isinstance(x, float) and (math.isinf(x) or math.isnan(x)):
                 return "Error"
