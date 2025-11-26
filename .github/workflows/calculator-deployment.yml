@@ -58,32 +58,28 @@ jobs:
       run: |
         Copy-Item "dist\calculator-Windows-${{ matrix.python-version }}.exe" "Installers\Windows\Windows Installer ${{ matrix.python-version }}\dist\" -Force
 
-    # 6. Установка Inno Setup
+    # 6. Создание установщиков Windows
     - name: Install Inno Setup (Windows)
       if: runner.os == 'Windows'
-      uses: jschmidt13/setup-inno-setup@v1
+      uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
+      with:
+        path: Installers\Windows\Windows Installer ${{ matrix.python-version }}\windows-installer-${{ matrix.python-version }}.iss
 
-    # 7.Создание установщиков Windows
-    - name: Build Windows installer
-      if: runner.os == 'Windows'
-      run: |
-        iscc.exe "Installers\Windows\Windows Installer ${{ matrix.python-version }}\windows-installer-${{ matrix.python-version }}.iss"
-
-    # 8. Установка приложения (только для Linux)
+    # 7. Установка приложения (только для Linux)
     - name: Install application
       if: runner.os == 'Linux'
       run: |
         chmod +x dist/calculator-${{ runner.os }}-${{ matrix.python-version }}
         sudo cp dist/calculator-${{ runner.os }}-${{ matrix.python-version }} /usr/local/bin/
 
-    # 9. Создание установщиков Linus
+    # 8. Создание установщиков Linus
     - name: Build DEB installer (Linux)
       if: runner.os == 'Linux'
       run: |
         chmod +x "Installers/Debian/Debian Installer ${{ matrix.python-version }}/build_deb.sh"
         bash "Installers/Debian/Debian Installer ${{ matrix.python-version }}/build_deb.sh"
 
-    # 10. Создание релизного артефакта
+    # 9. Создание релизного артефакта
     - name: Create release artifact
       uses: actions/upload-artifact@v4
       with:
