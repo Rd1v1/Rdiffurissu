@@ -28,7 +28,7 @@ echo "Сборка исполняемого файла..."
 python3.11 -m PyInstaller \
     --onefile \
     --windowed \
-    --name "calculator-Linux-${PYTHON_VERSION}" \
+    --name "Calculator-Linux-${PYTHON_VERSION}" \
     --distpath "./dist" \
     --workpath "./build" \
     --specpath "./spec" \
@@ -48,13 +48,13 @@ mkdir -p "${PACKAGE_DIR}/usr/lib/calculator"
 mkdir -p "${PACKAGE_DIR}/DEBIAN"
 
 # Копирование бинарного файла
-if [ ! -f "dist/calculator-Linux-${PYTHON_VERSION}" ]; then
-    echo "Ошибка: dist/calculator-Linux-${PYTHON_VERSION} не найден"
+if [ ! -f "dist/Calculator-Linux-${PYTHON_VERSION}" ]; then
+    echo "Ошибка: dist/Calculator-Linux-${PYTHON_VERSION} не найден"
     exit 1
 fi
 
-cp "dist/calculator-Linux-${PYTHON_VERSION}" "${PACKAGE_DIR}/usr/lib/calculator/"
-chmod +x "${PACKAGE_DIR}/usr/lib/calculator/calculator-Linux-${PYTHON_VERSION}"
+cp "dist/Calculator-Linux-${PYTHON_VERSION}" "${PACKAGE_DIR}/usr/lib/calculator/"
+chmod +x "${PACKAGE_DIR}/usr/lib/calculator/Calculator-Linux-${PYTHON_VERSION}"
 
 # Копирование скриптов из DEBIAN директории
 cp "${SCRIPT_DIR}/DEBIAN/control" "${PACKAGE_DIR}/DEBIAN/"
@@ -70,6 +70,7 @@ echo "Сборка DEB пакета..."
 dpkg-deb --build "${PACKAGE_DIR}"
 
 # Перемещение готового пакета
-mv "${PACKAGE_DIR}.deb" "calculator-3.11.deb"
+mv "${PACKAGE_DIR}.deb" "${SCRIPT_DIR}/Calculator-Linux-3.11.deb"
 
-echo "DEB пакет успешно создан: calculator-3.11.deb"
+echo "DEB пакет успешно создан: Calculator-Linux-3.11.deb"
+echo "Путь: ${SCRIPT_DIR}/Calculator-Linux-3.11.deb"
