@@ -9,7 +9,7 @@ PYTHON_VERSION="3."
 BUILD_DIR="build_deb9"
 PACKAGE_DIR="${BUILD_DIR}/${PACKAGE_NAME}-${VERSION}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../../../" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../../" && pwd)"
 
 # Очистка предыдущей сборки
 rm -rf "${BUILD_DIR}"
@@ -57,9 +57,9 @@ cp "dist/calculator-Linux-${PYTHON_VERSION}" "${PACKAGE_DIR}/usr/lib/calculator/
 chmod +x "${PACKAGE_DIR}/usr/lib/calculator/calculator-Linux-${PYTHON_VERSION}"
 
 # Копирование скриптов из DEBIAN директории
-cp "${SCRIPT_DIR}/../DEBIAN/control" "${PACKAGE_DIR}/DEBIAN/"
-cp "${SCRIPT_DIR}/../DEBIAN/postinst" "${PACKAGE_DIR}/DEBIAN/"
-cp "${SCRIPT_DIR}/../DEBIAN/prerm" "${PACKAGE_DIR}/DEBIAN/"
+cp "${SCRIPT_DIR}/DEBIAN/control" "${PACKAGE_DIR}/DEBIAN/"
+cp "${SCRIPT_DIR}/DEBIAN/postinst" "${PACKAGE_DIR}/DEBIAN/"
+cp "${SCRIPT_DIR}/DEBIAN/prerm" "${PACKAGE_DIR}/DEBIAN/"
 
 # Выставление прав
 chmod 755 "${PACKAGE_DIR}/DEBIAN/postinst"
