@@ -85,8 +85,8 @@ jobs:
       with:
         name: Calculator-${{ matrix.os }}-${{ matrix.python-version }}
         path: |
-          dist/calculator-${{ runner.os }}-${{ matrix.python-version }}
-          dist/calculator-${{ runner.os }}-${{ matrix.python-version }}.exe
+          dist/Calculator-Linux-${{ matrix.python-version }}
+          dist/Calculator-Windows-${{ matrix.python-version }}.exe
           Installers/Windows/Windows Installer ${{ matrix.python-version }}/Output/Calculator-Windows-${{ matrix.python-version }}-Setup.exe
           Installers/Debian/Debian Installer ${{ matrix.python-version }}/Calculator-Linux-${{ matrix.python-version }}.deb
 
@@ -106,9 +106,8 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          **/Calculator*
-          **/Calculator*.*
-          **/*.deb
+          **/Calculator-Windows*
+          **/Calculator-Linux*
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
