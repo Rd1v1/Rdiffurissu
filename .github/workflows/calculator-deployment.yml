@@ -59,7 +59,7 @@ jobs:
         Copy-Item "dist\calculator-Windows-${{ matrix.python-version }}.exe" "Installers\Windows\Windows Installer ${{ matrix.python-version }}\dist\" -Force
 
     # 6. Создание установщиков Windows
-    - name: Install Inno Setup (Windows)
+    - name: Build Installers (Windows)
       if: runner.os == 'Windows'
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
       with:

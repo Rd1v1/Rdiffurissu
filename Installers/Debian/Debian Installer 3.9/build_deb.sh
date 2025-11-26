@@ -21,11 +21,11 @@ apt-get update
 apt-get install -y python3.9 python3.9-dev python3.9-tk python9-pip
 
 echo "Установка PyInstaller..."
-python3.11 -m pip install --upgrade pip
+python3.9 -m pip install --upgrade pip
 pip install pyinstaller --break-system-packages
 
 echo "Сборка исполняемого файла..."
-python3.11 -m PyInstaller \
+python3.9 -m PyInstaller \
     --onefile \
     --windowed \
     --name "calculator-Linux-${PYTHON_VERSION}" \
