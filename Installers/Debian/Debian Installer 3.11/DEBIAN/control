@@ -5,3 +5,4 @@ Maintainer: Rdiffurissu
 Depends: python3.11, python3-tk
 Description: Простой калькулятор
  Кросс-платформенный калькулятор, созданный на Python 3.11
+ 
