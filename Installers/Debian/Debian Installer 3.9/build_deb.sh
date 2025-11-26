@@ -70,7 +70,7 @@ echo "Сборка DEB пакета..."
 dpkg-deb --build "${PACKAGE_DIR}"
 
 # Перемещение готового пакета
-mv "${PACKAGE_DIR}.deb" "${SCRIPT_DIR}/calculator-3.9.deb"
+mv "${PACKAGE_DIR}.deb" "${SCRIPT_DIR}/Calculator-Linux-3.9.deb"
 
-echo "DEB пакет успешно создан: calculator-3.9.deb"
-echo "Путь: ${SCRIPT_DIR}/calculator-3.9.deb"
+echo "DEB пакет успешно создан: Calculator-Linux-3.9.deb"
+echo "Путь: ${SCRIPT_DIR}/Calculator-Linux-3.9.deb"
