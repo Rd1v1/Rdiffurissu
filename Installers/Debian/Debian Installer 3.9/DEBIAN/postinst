@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+# Создание символьной ссылки
+ln -sf /usr/lib/calculator/calculator-Linux-3.9 /usr/bin/calculator 2>/dev/null || true
+
+echo "Калькулятор установлен успешно"
+
+#DEBHELPER#

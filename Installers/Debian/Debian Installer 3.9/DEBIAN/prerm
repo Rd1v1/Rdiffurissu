@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+# Удаление символьной ссылки
+rm -f /usr/bin/calculator 2>/dev/null || true
+
+#DEBHELPER#
