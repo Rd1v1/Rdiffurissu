@@ -50,13 +50,13 @@ jobs:
         pip install pyinstaller
         
         # Сборка исполняемого файла
-        pyinstaller --onefile --windowed --name "calculator-${{ runner.os }}-${{ matrix.python-version }}" calculator.py
+        pyinstaller --onefile --windowed --name "Calculator-${{ runner.os }}-${{ matrix.python-version }}" calculator.py
 
     # 5. Копирование исполняемого файла Windows в директорию с установщиков
     - name: Copy exe to Windows Installer directory
       if: runner.os == 'Windows'
       run: |
-        Copy-Item "dist\calculator-Windows-${{ matrix.python-version }}.exe" "Installers\Windows\Windows Installer ${{ matrix.python-version }}\dist\" -Force
+        Copy-Item "dist\Calculator-Windows-${{ matrix.python-version }}.exe" "Installers\Windows\Windows Installer ${{ matrix.python-version }}\dist\" -Force
 
     # 6. Создание установщиков Windows
     - name: Build Installers (Windows)
@@ -69,8 +69,8 @@ jobs:
     - name: Install application
       if: runner.os == 'Linux'
       run: |
-        chmod +x dist/calculator-${{ runner.os }}-${{ matrix.python-version }}
-        sudo cp dist/calculator-${{ runner.os }}-${{ matrix.python-version }} /usr/local/bin/
+        chmod +x dist/Calculator-${{ runner.os }}-${{ matrix.python-version }}
+        sudo cp dist/Calculator-${{ runner.os }}-${{ matrix.python-version }} /usr/local/bin/
 
     # 8. Создание установщиков Linus
     - name: Build DEB installer (Linux)
@@ -83,12 +83,12 @@ jobs:
     - name: Create release artifact
       uses: actions/upload-artifact@v4
       with:
-        name: calculator-${{ matrix.os }}-${{ matrix.python-version }}
+        name: Calculator-${{ matrix.os }}-${{ matrix.python-version }}
         path: |
           dist/calculator-${{ runner.os }}-${{ matrix.python-version }}
           dist/calculator-${{ runner.os }}-${{ matrix.python-version }}.exe
           Installers/Windows/Windows Installer ${{ matrix.python-version }}/Output/Calculator-Windows-${{ matrix.python-version }}-Setup.exe
-          Installers/Debian/Debian Installer ${{ matrix.python-version }}/calculator-${{ matrix.python-version }}.deb
+          Installers/Debian/Debian Installer ${{ matrix.python-version }}/Calculator-Linux-${{ matrix.python-version }}.deb
 
   deployment:
     runs-on: ubuntu-latest
@@ -106,8 +106,8 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          **/calculator*
-          **/calculator*.*
+          **/Calculator*
+          **/Calculator*.*
           **/*.deb
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
