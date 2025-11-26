@@ -8,6 +8,8 @@ VERSION="1.0.8"
 PYTHON_VERSION="3.11"
 BUILD_DIR="build_deb"
 PACKAGE_DIR="${BUILD_DIR}/${PACKAGE_NAME}-${VERSION}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../../../" && pwd)"
 
 # Очистка предыдущей сборки
 rm -rf "${BUILD_DIR}"
@@ -30,7 +32,7 @@ python3.11 -m PyInstaller \
     --distpath "./dist" \
     --workpath "./build" \
     --specpath "./spec" \
-    ../../../calculator.py
+    "${PROJECT_ROOT}/calculator.py"
 
 if [ $? -ne 0 ]; then
     echo "Ошибка при сборке бинарного файла"
@@ -54,10 +56,10 @@ fi
 cp "dist/calculator-Linux-${PYTHON_VERSION}" "${PACKAGE_DIR}/usr/lib/calculator/"
 chmod +x "${PACKAGE_DIR}/usr/lib/calculator/calculator-Linux-${PYTHON_VERSION}"
 
-# Копирование скриптов
-cp "./DEBIAN/control" "${PACKAGE_DIR}/DEBIAN/"
-cp "./DEBIAN/postinst" "${PACKAGE_DIR}/DEBIAN/"
-cp "./DEBIAN/prerm" "${PACKAGE_DIR}/DEBIAN/"
+# Копирование скриптов из DEBIAN директории
+cp "${SCRIPT_DIR}/../DEBIAN/control" "${PACKAGE_DIR}/DEBIAN/"
+cp "${SCRIPT_DIR}/../DEBIAN/postinst" "${PACKAGE_DIR}/DEBIAN/"
+cp "${SCRIPT_DIR}/../DEBIAN/prerm" "${PACKAGE_DIR}/DEBIAN/"
 
 # Выставление прав
 chmod 755 "${PACKAGE_DIR}/DEBIAN/postinst"
