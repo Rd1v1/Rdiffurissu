@@ -79,7 +79,7 @@ jobs:
         chmod +x "Installers/Debian/Debian Installer ${{ matrix.python-version }}/build_deb.sh"
         bash "Installers/Debian/Debian Installer ${{ matrix.python-version }}/build_deb.sh"
 
-    # 9. Создание релизного артефакта
+    # 9. Создание релизных артефактов
     - name: Create release artifact
       uses: actions/upload-artifact@v4
       with:
@@ -87,8 +87,8 @@ jobs:
         path: |
           dist/calculator-${{ runner.os }}-${{ matrix.python-version }}
           dist/calculator-${{ runner.os }}-${{ matrix.python-version }}.exe
-          Installers/Windows/*/Output/*.exe
-          Installers/Debian/*/*.deb
+          Installers/Windows/Windows Installer ${{ matrix.python-version }}/Output/Calculator-Windows-${{ matrix.python-version }}-Setup.exe
+          Installers/Debian/Debian Installer ${{ matrix.python-version }}/calculator-${{ matrix.python-version }}.deb
 
   deployment:
     runs-on: ubuntu-latest
